@@ -11,17 +11,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,18 +30,14 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>>{
 
-    @BindView(R.id.empty_list)
-    TextView emptyTextView;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
-    @BindView(R.id.loading_indicator)
-    ProgressBar progressBar;
-
-    @BindView(R.id.list)
-    ListView listView;
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
 
     public static final String LOG_TAG = MainActivity.class.getName();
-    private ArticleListAdapter adapter;
-    private String GUARDIAN_BASE_API_REQUEST_URL = "http://content.guardianapis.com/search?q=";
+    private Adapter adapter;
     private String NYT_BASE_API_REQUEST_URL = "http://api.nytimes.com/svc/topstories/v2";
     private static final int ARTICLE_LOADER_ID = 1;
 
@@ -49,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+//        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         ButterKnife.bind(this);
 
         if (BuildConfig.DEBUG) {
@@ -57,7 +53,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Timber.plant(new Timber.DebugTree());
         }
 
-        listView.setEmptyView(emptyTextView);
+        final View toolbarContainerView = findViewById(R.id.toolbar_container);
+
+//        listView.setEmptyView(emptyTextView);
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -66,29 +64,32 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(ARTICLE_LOADER_ID, null, this);
         } else {
-            progressBar.setVisibility(View.GONE);
-            emptyTextView.setText(R.string.no_connection_message);
+//            progressBar.setVisibility(View.GONE);
+//            emptyTextView.setText(R.string.no_connection_message);
+            Toast.makeText(this, R.string.empty_list, Toast.LENGTH_SHORT).show();
         }
 
-        adapter = new ArticleListAdapter(this, new ArrayList<Article>());
-        listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // Find the current book that was clicked on
-                Article currentArticle = adapter.getItem(position);
 
-                // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Uri articleUri = Uri.parse(currentArticle.getWebUrl());
-
-                // Create a new intent to view the book URI
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, articleUri);
-
-                // Send the intent to launch a new activity
-                startActivity(websiteIntent);
-            }
-        });
+//        adapter = new ArticleListAdapter(this, new ArrayList<Article>());
+//        listView.setAdapter(adapter);
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                // Find the current book that was clicked on
+//                Article currentArticle = adapter.getItem(position);
+//
+//                // Convert the String URL into a URI object (to pass into the Intent constructor)
+//                Uri articleUri = Uri.parse(currentArticle.getWebUrl());
+//
+//                // Create a new intent to view the book URI
+//                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, articleUri);
+//
+//                // Send the intent to launch a new activity
+//                startActivity(websiteIntent);
+//            }
+//        });
     }
 
     @Override
@@ -120,20 +121,84 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<List<Article>> loader, List<Article> data) {
-        adapter.clear();
-        progressBar.setVisibility(View.GONE);
-
-        if(data != null && !data.isEmpty()){
-            adapter.addAll(data);
-            Log.e("onLoadFinished", "Run onLoadFinished");
-        }
-        emptyTextView.setText(R.string.empty_list);
+        adapter = new Adapter(data);
+        adapter.setHasStableIds(true);
+        mRecyclerView.setAdapter(adapter);
+        int columnCount = 1;
+        StaggeredGridLayoutManager sglm =
+                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(sglm);
+//        adapter.clear();
+//        progressBar.setVisibility(View.GONE);
+//
+//        if(data != null && !data.isEmpty()){
+//            adapter.addAll(data);
+//            Log.e("onLoadFinished", "Run onLoadFinished");
+//        }
+//        emptyTextView.setText(R.string.empty_list);
     }
 
     @Override
     public void onLoaderReset(Loader<List<Article>> loader) {
-        adapter.clear();
+        mRecyclerView.setAdapter(null);
     }
+
+    private class Adapter extends RecyclerView.Adapter<ViewHolder>{
+        private List<Article> mListArticle;
+
+        public Adapter(List<Article> listArticle) {
+            mListArticle = listArticle;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = getLayoutInflater().inflate(R.layout.list_item_article, parent, false);
+            final ViewHolder viewHolder = new ViewHolder(view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Article currentArticle = mListArticle.get(viewHolder.getAdapterPosition());
+                    Timber.d("onCreateViewHolder");
+                    Timber.d(currentArticle.toString());
+                    Uri articleUri = Uri.parse(currentArticle.getWebUrl());
+                    Intent websiteIntent = new Intent(Intent.ACTION_VIEW, articleUri);
+                    startActivity(websiteIntent);
+                }
+            });
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            Article currentArticle = mListArticle.get(position);
+            Timber.d("onBindViewHolder");
+            Timber.d(currentArticle.toString());
+            holder.articleTitleTextView.setText(currentArticle.getWebTitle());
+            holder.sectionNameTextView.setText(currentArticle.getSectionName());
+            holder.publicationDateTextView.setText(currentArticle.getWebPublicationDate());
+        }
+
+        @Override
+        public int getItemCount() {
+            return mListArticle.size();
+        }
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView thumbnailView;
+        public TextView articleTitleTextView;
+        public TextView sectionNameTextView;
+        public TextView publicationDateTextView;
+
+        public ViewHolder(View view) {
+            super(view);
+//            thumbnailView = (ImageView) view.findViewById(R.id.thumbnail);
+            articleTitleTextView = (TextView) view.findViewById(R.id.article_title);
+            sectionNameTextView = (TextView) view.findViewById(R.id.section_name);
+            publicationDateTextView = (TextView) view.findViewById(R.id.publication_date);
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -143,12 +208,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.action_settings){
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
-            return true;
-        }
+//        int id = item.getItemId();
+//        if(id == R.id.action_settings){
+//            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+//            startActivity(settingsIntent);
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 }

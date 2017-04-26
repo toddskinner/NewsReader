@@ -1,0 +1,24 @@
+<resources>
+    <!-- detail -->
+    <item name="detail_body_line_spacing_multiplier" format="float" type="fraction">1.25</item>
+
+    <dimen name="fab_press_translation_z">6dp</dimen>
+    <dimen name="fab_margin">24dp</dimen>
+
+    <dimen name="list_item_card_margin">4dp</dimen>
+    <dimen name="list_item_card_elevation">2dp</dimen>
+
+    <dimen name="list_item_title_LTR_padding">16dp</dimen>
+    <dimen name="list_item_title_bottom_padding">4dp</dimen>
+
+    <dimen name="list_side_margin">4dp</dimen>
+    <dimen name="list_toolbar_side_margin">0dp</dimen>
+
+    <dimen name="detail_title_text_size">24sp</dimen>
+    <dimen name="detail_body_text_size">20sp</dimen>
+    <dimen name="detail_byline_text_size">16sp</dimen>
+
+    <dimen name="list_item_title_text_size">20sp</dimen>
+    <dimen name="list_item_byline_text_size">16sp</dimen>
+
+</resources>
