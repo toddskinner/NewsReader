@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">NewsReader</string>
+
+
+    <string name="source_newyorktimes">NYT</string>
+    <string name="source_wallstreetjournal">WSJ</string>
+    <string name="source_washingtonpost">WaPo</string>
+    <string name="source_huffingtonpost">HuffPo</string>
+    <string name="source_bloomberg">Bloomberg</string>
+    <string name="source_businessinsider">BI</string>
+
+    <string name="empty_list">No articles found. Try another topic.</string>
+    <string name="no_connection_message">No internet connection found</string>
+
+    <!-- Strings For article topic preference -->
+    <string name="settings_topic_label">Topic</string>
+    <string name="settings_topic_key" translatable="false">topic</string>
+    <string name="settings_topic_default" translatable="false">national</string>
+
+    <!-- Settings Menu Item -->
+    <string name="settings_menu_item">Settings</string>
+    <!-- Settings Activity Title -->
+    <string name="settings_title">NewsFeed Settings</string>
+</resources>
