@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -121,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<List<Article>> loader, List<Article> data) {
+        Timber.d("data");
+        Timber.d(data.toString());
         adapter = new Adapter(data);
         adapter.setHasStableIds(true);
         mRecyclerView.setAdapter(adapter);
@@ -151,6 +155,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
         @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.list_item_article, parent, false);
             final ViewHolder viewHolder = new ViewHolder(view);
@@ -158,8 +167,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 @Override
                 public void onClick(View view) {
                     Article currentArticle = mListArticle.get(viewHolder.getAdapterPosition());
-                    Timber.d("onCreateViewHolder");
-                    Timber.d(currentArticle.toString());
                     Uri articleUri = Uri.parse(currentArticle.getWebUrl());
                     Intent websiteIntent = new Intent(Intent.ACTION_VIEW, articleUri);
                     startActivity(websiteIntent);
@@ -171,11 +178,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             Article currentArticle = mListArticle.get(position);
-            Timber.d("onBindViewHolder");
-            Timber.d(currentArticle.toString());
             holder.articleTitleTextView.setText(currentArticle.getWebTitle());
             holder.sectionNameTextView.setText(currentArticle.getSectionName());
             holder.publicationDateTextView.setText(currentArticle.getWebPublicationDate());
+
+            String thumbnailUrl = currentArticle.getThumbnailUrl();
+            Timber.d("thumbnailUrl");
+            Timber.d(thumbnailUrl.toString());
+            Picasso.with(holder.thumbnailView.getContext()).load(thumbnailUrl).into(holder.thumbnailView);
         }
 
         @Override
@@ -192,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         public ViewHolder(View view) {
             super(view);
-//            thumbnailView = (ImageView) view.findViewById(R.id.thumbnail);
+            thumbnailView = (ImageView) view.findViewById(R.id.thumbnail);
             articleTitleTextView = (TextView) view.findViewById(R.id.article_title);
             sectionNameTextView = (TextView) view.findViewById(R.id.section_name);
             publicationDateTextView = (TextView) view.findViewById(R.id.publication_date);
@@ -208,12 +218,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if(id == R.id.action_settings){
-//            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-//            startActivity(settingsIntent);
-//            return true;
-//        }
+
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+//            case R.id.action_delete_all_entries:
+//                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+//                startActivity(settingsIntent);
+//                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

@@ -43,6 +43,8 @@ public final class NetworkUtils {
         try {
             JSONObject baseJsonResponse = new JSONObject(articlesJSON);
             JSONArray resultsArray = baseJsonResponse.getJSONArray("results");
+            Timber.d("results");
+            Timber.d(String.valueOf(resultsArray.length()));
 
             for(int i = 0; i < resultsArray.length(); i++){
                 JSONObject jsonCurrentArticle = resultsArray.getJSONObject(i);
@@ -52,11 +54,11 @@ public final class NetworkUtils {
                 String url = jsonCurrentArticle.getString("url");
 
                 JSONArray multimediaArray = jsonCurrentArticle.getJSONArray("multimedia");
-                String standardThumbnailUrl = multimediaArray.getJSONObject(0).getString("url");
+                String thumbnailUrl = multimediaArray.getJSONObject(3).getString("url");
 
-                Timber.d(standardThumbnailUrl);
+                Timber.d(thumbnailUrl);
 
-                articles.add(new Article(section, publishedDate, title, url));
+                articles.add(new Article(section, publishedDate, title, url, thumbnailUrl));
             }
 //            JSONObject responseObject = baseJsonResponse.getJSONObject("response");
 //            JSONArray resultsArray = responseObject.getJSONArray("results");

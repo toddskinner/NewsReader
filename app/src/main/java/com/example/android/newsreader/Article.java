@@ -9,12 +9,14 @@ public class Article {
     private String mWebPublicationDate;
     private String mWebTitle;
     private String mWebUrl;
+    private String mThumbnailUrl;
 
-    public Article (String sectionName, String webPublicationDate, String webTitle, String webUrl){
+    public Article (String sectionName, String webPublicationDate, String webTitle, String webUrl, String thumbnailUrl){
         mSectionName = sectionName;
         mWebPublicationDate = webPublicationDate;
         mWebTitle = webTitle;
         mWebUrl = webUrl;
+        mThumbnailUrl = thumbnailUrl;
     }
 
     public String getSectionName(){
@@ -37,5 +39,9 @@ public class Article {
 
     public String getWebUrl(){
         return mWebUrl;
+    }
+
+    public String getThumbnailUrl(){
+        return mThumbnailUrl;
     }
 }
