@@ -30,6 +30,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+import static com.example.android.newsreader.BuildConfig.NYT_API_KEY;
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>>{
 
     @BindView(R.id.toolbar)
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 //        String apiKey = "47ca4388-28bd-4e95-ad34-b6390a455847";
-        String apiKey = "5c7ed8e8dac740df84a951ff67a60ac7";
+        String apiKey = NYT_API_KEY;
         String format = ".json";
         String section = "national";
         String sectionAndFormat = section + format;
