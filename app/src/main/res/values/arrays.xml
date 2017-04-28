@@ -9,12 +9,24 @@
         <item>@string/settings_source_businessinsider_label</item>
     </string-array>
 
-    <string-array name="settings_order_by_values">
+    <string-array name="settings_source_values">
         <item>@string/settings_source_nyt_value</item>
         <item>@string/settings_source_wsj_value</item>
         <item>@string/settings_source_wapo_value</item>
         <item>@string/settings_source_huffpo_value</item>
         <item>@string/settings_source_bloomberg_value</item>
         <item>@string/settings_source_businessinsider_value</item>
+    </string-array>
+
+    <string-array name="settings_sort_by_labels">
+        <item>@string/settings_sort_by_top_label</item>
+        <item>@string/settings_sort_by_latest_label</item>
+        <item>@string/settings_sort_by_popular_label</item>
+    </string-array>
+
+    <string-array name="settings_sort_by_values">
+        <item>@string/settings_sort_by_top_value</item>
+        <item>@string/settings_sort_by_latest_value</item>
+        <item>@string/settings_sort_by_popular_value</item>
     </string-array>
 </resources>

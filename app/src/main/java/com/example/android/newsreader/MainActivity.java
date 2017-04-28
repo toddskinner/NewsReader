@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.example.android.newsreader.BuildConfig.NYT_API_KEY;
+import static com.example.android.newsreader.BuildConfig.API_KEY;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>>{
 
@@ -44,6 +44,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static final String LOG_TAG = MainActivity.class.getName();
     private Adapter adapter;
     private String NYT_BASE_API_REQUEST_URL = "http://api.nytimes.com/svc/topstories/v2";
+    private String BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles";
+    private String WAPO_BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles?source=the-washington-post&sortBy=top";
+    private String HUFFPO_BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles?source=the-huffington-post&sortBy=top";
+    private String BLOOM_BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles?source=bloomberg&sortBy=top";
+    private String BI_BASE_API_REQUEST_URL = "";
     private static final int ARTICLE_LOADER_ID = 1;
 
     @Override
@@ -56,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Timber.uprootAll();
             Timber.plant(new Timber.DebugTree());
         }
-
-        final View toolbarContainerView = findViewById(R.id.toolbar_container);
 
 //        listView.setEmptyView(emptyTextView);
 
@@ -77,26 +80,42 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String apiKey = NYT_API_KEY;
-        String format = ".json";
-        String section = "national";
-        String sectionAndFormat = section + format;
+        String articleSource = sharedPrefs.getString(
+                getString(R.string.settings_source_key),
+                getString(R.string.settings_source_default));
 
-        Uri baseUri = Uri.parse(NYT_BASE_API_REQUEST_URL);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendPath(sectionAndFormat);
-        uriBuilder.appendQueryParameter("api-key", apiKey);
+//        if(Integer.parseInt(articleSource) == 1){
+//            String format = ".json";
+//            String section = "national";
+//            String sectionAndFormat = section + format;
+//
+//            Uri baseUri = Uri.parse(NYT_BASE_API_REQUEST_URL);
+//            Uri.Builder uriBuilder = baseUri.buildUpon();
+//            uriBuilder.appendPath(sectionAndFormat);
+//            uriBuilder.appendQueryParameter("api-key", NYT_API_KEY);
+//            return new ArticleLoader(this, uriBuilder.toString());
+//        } else {
+            String articleSortBy = sharedPrefs.getString(
+                    getString(R.string.settings_sort_by_key),
+                    getString(R.string.settings_sort_by_default));
 
-        Timber.d(uriBuilder.toString());
+            Uri baseUri = Uri.parse(BASE_API_REQUEST_URL);
+            Uri.Builder uriBuilder = baseUri.buildUpon();
+            uriBuilder.appendQueryParameter("source", articleSource);
+            uriBuilder.appendQueryParameter("sortBy", articleSortBy);
+            uriBuilder.appendQueryParameter("apiKey", API_KEY);
 
-        return new ArticleLoader(this, uriBuilder.toString());
+            Timber.d("uribuilder");
+            Timber.d(uriBuilder.toString());
+
+            return new ArticleLoader(this, uriBuilder.toString());
+//        }
     }
 
     @Override
     public void onLoadFinished(Loader<List<Article>> loader, List<Article> data) {
         Timber.d("data");
         Timber.d(data.toString());
-
         if (data != null && !data.isEmpty()) {
             adapter = new Adapter(data);
             adapter.setHasStableIds(true);
@@ -113,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<List<Article>> loader) {
-        mRecyclerView.setAdapter(null);
+        mRecyclerView.setAdapter(adapter);
     }
 
     private class Adapter extends RecyclerView.Adapter<ViewHolder>{
@@ -148,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         public void onBindViewHolder(ViewHolder holder, int position) {
             Article currentArticle = mListArticle.get(position);
             holder.articleTitleTextView.setText(currentArticle.getWebTitle());
-            holder.sectionNameTextView.setText(currentArticle.getSectionName());
             holder.publicationDateTextView.setText(currentArticle.getWebPublicationDate());
 
             String thumbnailUrl = currentArticle.getThumbnailUrl();
@@ -166,14 +184,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView thumbnailView;
         public TextView articleTitleTextView;
-        public TextView sectionNameTextView;
         public TextView publicationDateTextView;
 
         public ViewHolder(View view) {
             super(view);
             thumbnailView = (ImageView) view.findViewById(R.id.thumbnail);
             articleTitleTextView = (TextView) view.findViewById(R.id.article_title);
-            sectionNameTextView = (TextView) view.findViewById(R.id.section_name);
             publicationDateTextView = (TextView) view.findViewById(R.id.publication_date);
         }
     }

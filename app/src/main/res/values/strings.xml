@@ -20,34 +20,47 @@
     <!-- Strings For Source Preference  -->
     <string name="settings_source_label">News Source</string>
     <string name="settings_source_key" translatable="false">Source</string>
-    <string name="settings_source_default" translatable="false">@string/settings_source_nyt_value</string>
+    <string name="settings_source_default" translatable="false">the-new-york-times</string>
 
     <!-- Label for NYTimes option  -->
     <string name="settings_source_nyt_label">New York Times</string>
-    <string name="settings_source_nyt_value" translatable="false">1</string>
+    <string name="settings_source_nyt_value" translatable="false">the-new-york-times</string>
 
     <!-- Label for WSJ option -->
     <string name="settings_source_wsj_label">Wall Street Journal</string>
-    <string name="settings_source_wsj_value" translatable="false">2</string>
+    <string name="settings_source_wsj_value" translatable="false">the-wall-street-journal</string>
 
     <!-- Label for Washington Post option -->
     <string name="settings_source_wapo_label">Washington Post</string>
-    <string name="settings_source_wapo_value" translatable="false">3</string>
+    <string name="settings_source_wapo_value" translatable="false">the-washington-post</string>
 
     <!-- Label for Huffington Post option -->
     <string name="settings_source_huffpo_label">Huffington Post</string>
-    <string name="settings_source_huffpo_value" translatable="false">4</string>
+    <string name="settings_source_huffpo_value" translatable="false">the-huffington-post</string>
 
     <!-- Label for Bloomberg option -->
     <string name="settings_source_bloomberg_label">Bloomberg</string>
-    <string name="settings_source_bloomberg_value" translatable="false">5</string>
+    <string name="settings_source_bloomberg_value" translatable="false">bloomberg</string>
 
     <!-- Label for Business Insider option -->
     <string name="settings_source_businessinsider_label">Business Insider</string>
-    <string name="settings_source_businessinsider_value" translatable="false">6</string>
+    <string name="settings_source_businessinsider_value" translatable="false">business-insider</string>
 
-    <!-- Strings For Article Topic Preference -->
-    <string name="settings_topic_label">Topic</string>
-    <string name="settings_topic_key" translatable="false">topic</string>
-    <string name="settings_topic_default" translatable="false">national</string>
+    <!-- Strings For Article Sort Preference -->
+    <string name="settings_sort_by_label">Sort By</string>
+    <string name="settings_sort_by_key" translatable="false">Sort</string>
+    <string name="settings_sort_by_default" translatable="false">top</string>
+
+    <!-- Label for Top option -->
+    <string name="settings_sort_by_top_label">Top</string>
+    <string name="settings_sort_by_top_value" translatable="false">top</string>
+
+    <!-- Label for Latest option -->
+    <string name="settings_sort_by_latest_label">Latest</string>
+    <string name="settings_sort_by_latest_value" translatable="false">latest</string>
+
+    <!-- Label for Popular option -->
+    <string name="settings_sort_by_popular_label">Popular</string>
+    <string name="settings_sort_by_popular_value" translatable="false">popular</string>
+
 </resources>

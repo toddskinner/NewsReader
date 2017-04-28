@@ -26,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
             Preference articleSource = findPreference(getString(R.string.settings_source_key));
             bindPreferenceSummaryToValue(articleSource);
 
-            Preference articlesTopic = findPreference(getString(R.string.settings_topic_key));
+            Preference articlesTopic = findPreference(getString(R.string.settings_sort_by_key));
             bindPreferenceSummaryToValue(articlesTopic);
         }
 

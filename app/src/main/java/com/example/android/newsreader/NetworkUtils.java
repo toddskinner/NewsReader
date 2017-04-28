@@ -66,6 +66,37 @@ public final class NetworkUtils {
         return articles;
     }
 
+    public static List<Article> extractArticlesFromJson(String articlesJSON){
+
+        if (TextUtils.isEmpty(articlesJSON)){
+            return null;
+        }
+
+        List<Article> articles = new ArrayList<>();
+
+        try {
+            JSONObject baseJsonResponse = new JSONObject(articlesJSON);
+            JSONArray articlesArray = baseJsonResponse.getJSONArray("articles");
+            Timber.d(String.valueOf(articlesArray.length()));
+
+            for(int i = 0; i < articlesArray.length(); i++){
+                JSONObject jsonCurrentArticle = articlesArray.getJSONObject(i);
+                String description = jsonCurrentArticle.getString("description");
+                String publishedDate = jsonCurrentArticle.getString("publishedAt");
+                String title = jsonCurrentArticle.getString("title");
+                String url = jsonCurrentArticle.getString("url");
+                String thumbnailUrl = jsonCurrentArticle.getString("urlToImage");
+
+                Timber.d(thumbnailUrl);
+
+                articles.add(new Article(description, publishedDate, title, url, thumbnailUrl));
+            }
+        } catch (JSONException e){
+            Log.e("QueryUtils", "Problem parsing the book JSON results", e);
+        }
+        return articles;
+    }
+
     public static List<Article> fetchArticlesData(String requestUrl){
         URL url = createUrl(requestUrl);
 
@@ -76,7 +107,8 @@ public final class NetworkUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        List<Article> articles = extractNYTArticlesFromJson(jsonResponse);
+        List<Article> articles = extractArticlesFromJson(jsonResponse);
+
 
         return articles;
     }
