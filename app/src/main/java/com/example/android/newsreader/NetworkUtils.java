@@ -32,7 +32,7 @@ public final class NetworkUtils {
      * Return a list of {@link Article} objects that has been built up from
      * parsing a JSON response.
      */
-    public static List<Article> extractArticlesFromJson(String articlesJSON){
+    public static List<Article> extractNYTArticlesFromJson(String articlesJSON){
 
         if (TextUtils.isEmpty(articlesJSON)){
             return null;
@@ -60,17 +60,6 @@ public final class NetworkUtils {
 
                 articles.add(new Article(section, publishedDate, title, url, thumbnailUrl));
             }
-//            JSONObject responseObject = baseJsonResponse.getJSONObject("response");
-//            JSONArray resultsArray = responseObject.getJSONArray("results");
-//
-//            for(int i = 0; i < resultsArray.length(); i++){
-//                JSONObject jsonCurrentArticle = resultsArray.getJSONObject(i);
-//                String sectionName = jsonCurrentArticle.getString("sectionName");
-//                String webPublicationDate = jsonCurrentArticle.getString("webPublicationDate");
-//                String webTitle = jsonCurrentArticle.getString("webTitle");
-//                String webUrl = jsonCurrentArticle.getString("webUrl");
-//                articles.add(new Article(sectionName, webPublicationDate, webTitle, webUrl));
-//            }
         } catch (JSONException e){
             Log.e("QueryUtils", "Problem parsing the book JSON results", e);
         }
@@ -87,7 +76,7 @@ public final class NetworkUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        List<Article> articles = extractArticlesFromJson(jsonResponse);
+        List<Article> articles = extractNYTArticlesFromJson(jsonResponse);
 
         return articles;
     }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_source_labels">
+        <item>@string/settings_source_nyt_label</item>
+        <item>@string/settings_source_wsj_label</item>
+        <item>@string/settings_source_wapo_label</item>
+        <item>@string/settings_source_huffpo_label</item>
+        <item>@string/settings_source_bloomberg_label</item>
+        <item>@string/settings_source_businessinsider_label</item>
+    </string-array>
+
+    <string-array name="settings_order_by_values">
+        <item>@string/settings_source_nyt_value</item>
+        <item>@string/settings_source_wsj_value</item>
+        <item>@string/settings_source_wapo_value</item>
+        <item>@string/settings_source_huffpo_value</item>
+        <item>@string/settings_source_bloomberg_value</item>
+        <item>@string/settings_source_businessinsider_value</item>
+    </string-array>
+</resources>

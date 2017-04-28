@@ -4,10 +4,7 @@
     <item
         android:id="@+id/action_settings"
         android:title="@string/settings_menu_item"
-        android:orderInCategory="1" />
-
-    <item
-        android:id="@+id/action_settings2"
-        android:title="Settings 2"
-        android:orderInCategory="2" />
+        android:icon="@drawable/ic_filter"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom" />
 </menu>

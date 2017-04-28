@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         ButterKnife.bind(this);
 
         if (BuildConfig.DEBUG) {
@@ -72,50 +72,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //            emptyTextView.setText(R.string.no_connection_message);
             Toast.makeText(this, R.string.empty_list, Toast.LENGTH_SHORT).show();
         }
-
-
-
-//        adapter = new ArticleListAdapter(this, new ArrayList<Article>());
-//        listView.setAdapter(adapter);
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                // Find the current book that was clicked on
-//                Article currentArticle = adapter.getItem(position);
-//
-//                // Convert the String URL into a URI object (to pass into the Intent constructor)
-//                Uri articleUri = Uri.parse(currentArticle.getWebUrl());
-//
-//                // Create a new intent to view the book URI
-//                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, articleUri);
-//
-//                // Send the intent to launch a new activity
-//                startActivity(websiteIntent);
-//            }
-//        });
     }
 
     @Override
     public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-//        String apiKey = "47ca4388-28bd-4e95-ad34-b6390a455847";
         String apiKey = NYT_API_KEY;
         String format = ".json";
         String section = "national";
         String sectionAndFormat = section + format;
 
-//        String section = sharedPrefs.getString(
-//                getString(R.string.settings_topic_key),
-//                getString(R.string.settings_topic_default));
-
         Uri baseUri = Uri.parse(NYT_BASE_API_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-
         uriBuilder.appendPath(sectionAndFormat);
-//        uriBuilder.appendEncodedPath(format);
-
-//        uriBuilder.appendQueryParameter("q", section);
         uriBuilder.appendQueryParameter("api-key", apiKey);
 
         Timber.d(uriBuilder.toString());
@@ -127,20 +96,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(Loader<List<Article>> loader, List<Article> data) {
         Timber.d("data");
         Timber.d(data.toString());
-        adapter = new Adapter(data);
-        adapter.setHasStableIds(true);
-        mRecyclerView.setAdapter(adapter);
-        int columnCount = 1;
-        StaggeredGridLayoutManager sglm =
-                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(sglm);
-//        adapter.clear();
-//        progressBar.setVisibility(View.GONE);
-//
-//        if(data != null && !data.isEmpty()){
-//            adapter.addAll(data);
-//            Log.e("onLoadFinished", "Run onLoadFinished");
-//        }
+
+        if (data != null && !data.isEmpty()) {
+            adapter = new Adapter(data);
+            adapter.setHasStableIds(true);
+            Log.e("onLoadFinished", "Run onLoadFinished");
+//            progressBar.setVisibility(View.GONE);
+            mRecyclerView.setAdapter(adapter);
+            int columnCount = 1;
+            StaggeredGridLayoutManager sglm =
+                    new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+            mRecyclerView.setLayoutManager(sglm);
+        }
 //        emptyTextView.setText(R.string.empty_list);
     }
 
@@ -211,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -220,16 +186,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
-                return true;
-//            case R.id.action_delete_all_entries:
-//                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-//                startActivity(settingsIntent);
-//                return true;
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

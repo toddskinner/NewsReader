@@ -3,6 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings_title">
 
+    <ListPreference
+        android:defaultValue="@string/settings_source_default"
+        android:entries="@array/settings_source_labels"
+        android:entryValues="@array/settings_order_by_values"
+        android:key="@string/settings_source_key"
+        android:title="@string/settings_source_label" />
+
     <EditTextPreference
         android:defaultValue="@string/settings_topic_default"
         android:inputType="text"
