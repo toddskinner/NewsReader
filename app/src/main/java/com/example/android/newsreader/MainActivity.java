@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private String BLOOM_BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles?source=bloomberg&sortBy=top";
     private String BI_BASE_API_REQUEST_URL = "";
     private static final int ARTICLE_LOADER_ID = 1;
+    private List<Article> mListArticle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +115,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<List<Article>> loader, List<Article> data) {
-        Timber.d("data");
-        Timber.d(data.toString());
+//        adapter.clear();
         if (data != null && !data.isEmpty()) {
             adapter = new Adapter(data);
             adapter.setHasStableIds(true);
@@ -132,11 +132,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<List<Article>> loader) {
-        mRecyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private class Adapter extends RecyclerView.Adapter<ViewHolder>{
-        private List<Article> mListArticle;
 
         public Adapter(List<Article> listArticle) {
             mListArticle = listArticle;

@@ -19,12 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" />
-
-        <service
-            android:name=".ArticlesApiService"
-            android:enabled="true"
-            android:exported="true"></service>
+        <activity android:name=".SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.newsreader.MainActivity"/>
+        </activity>
     </application>
-
 </manifest>
