@@ -29,12 +29,14 @@ public class SavedArticlesLoader extends CursorLoader {
                 SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_DESCRIPTION,
                 SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_DATE,
                 SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_THUMBNAIL,
+                SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_URL,
         };
 
         int _ID = 0;
         int TITLE = 1;
-        int DESRIPTION = 2;
+        int DESCRIPTION = 2;
         int PUBLISHED_DATE = 3;
         int THUMB_URL = 4;
+        int ARTICLE_URL = 5;
     }
 }

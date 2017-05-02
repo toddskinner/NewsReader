@@ -1,6 +1,8 @@
 package com.example.android.newsreader;
 
 import android.app.LoaderManager;
+import android.content.AsyncQueryHandler;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -76,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Toast.makeText(this, R.string.empty_list, Toast.LENGTH_SHORT).show();
         }
 
+        //reference for code below: http://stackoverflow.com/questions/27293960/swipe-to-dismiss-for-recyclerview
+
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -89,13 +93,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 if (direction == ItemTouchHelper.LEFT) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setMessage("Are you sure to save this article?");
+                    builder.setMessage("Save this article?");
 
                     builder.setNegativeButton("SAVE", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            
-
+                            ContentValues contentValues = new ContentValues();
+                            Article currentArticle = mListArticle.get(position);
+                            contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_TITLE, currentArticle.getWebTitle());
+                            contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_DESCRIPTION, currentArticle.getDescription());
+                            contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_DATE, currentArticle.getWebPublicationDate());
+                            contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_THUMBNAIL, currentArticle.getThumbnailUrl());
+                            contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_URL, currentArticle.getWebTitle());
+                            queryHandler.startInsert(1, null, SavedArticlesContract.SavedArticlesEntry.CONTENT_URI, contentValues);
 
                             adapter.notifyItemRemoved(position);
                             mListArticle.remove(position);
@@ -113,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(mRecyclerView); //set swipe to recylcerview
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
@@ -123,17 +133,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getString(R.string.settings_source_key),
                 getString(R.string.settings_source_default));
 
-//        if(Integer.parseInt(articleSource) == 1){
-//            String format = ".json";
-//            String section = "national";
-//            String sectionAndFormat = section + format;
-//
-//            Uri baseUri = Uri.parse(NYT_BASE_API_REQUEST_URL);
-//            Uri.Builder uriBuilder = baseUri.buildUpon();
-//            uriBuilder.appendPath(sectionAndFormat);
-//            uriBuilder.appendQueryParameter("api-key", NYT_API_KEY);
-//            return new ArticleLoader(this, uriBuilder.toString());
-//        } else {
             String articleSortBy = sharedPrefs.getString(
                     getString(R.string.settings_sort_by_key),
                     getString(R.string.settings_sort_by_default));
@@ -230,6 +229,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             publicationDateTextView = (TextView) view.findViewById(R.id.publication_date);
         }
     }
+
+    AsyncQueryHandler queryHandler = new AsyncQueryHandler(getContentResolver()){
+        @Override
+        protected void onInsertComplete(int token, Object cookie, Uri uri) {
+            if (uri != null) {
+                System.out.println("Saved " + uri.toString());
+            }
+        }
+
+        @Override
+        protected void onDeleteComplete(int token, Object cookie, int result) {
+            if (result > 0) {
+                System.out.println("Deleted");
+            } else {
+                System.out.println("Delete failed");
+            }
+        }
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

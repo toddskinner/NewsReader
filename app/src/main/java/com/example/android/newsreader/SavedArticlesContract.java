@@ -49,6 +49,7 @@ public class SavedArticlesContract {
         public static final String COLUMN_ARTICLE_DESCRIPTION = "description";
         public static final String COLUMN_ARTICLE_DATE = "date";
         public static final String COLUMN_ARTICLE_THUMBNAIL = "thumbnail";
+        public static final String COLUMN_ARTICLE_URL = "url";
 
         public static final String DEFAULT_SORT = COLUMN_ARTICLE_DATE + " DESC";
     }

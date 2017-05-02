@@ -5,22 +5,22 @@ package com.example.android.newsreader;
  */
 
 public class Article {
-    private String mSectionName;
+    private String mDescription;
     private String mWebPublicationDate;
     private String mWebTitle;
     private String mWebUrl;
     private String mThumbnailUrl;
 
-    public Article (String sectionName, String webPublicationDate, String webTitle, String webUrl, String thumbnailUrl){
-        mSectionName = sectionName;
+    public Article (String description, String webPublicationDate, String webTitle, String webUrl, String thumbnailUrl){
+        mDescription = description;
         mWebPublicationDate = webPublicationDate;
         mWebTitle = webTitle;
         mWebUrl = webUrl;
         mThumbnailUrl = thumbnailUrl;
     }
 
-    public String getSectionName(){
-        return mSectionName;
+    public String getDescription(){
+        return mDescription;
     }
 
     public String getWebPublicationDate(){
