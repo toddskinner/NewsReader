@@ -1,14 +1,5 @@
 <resources>
     <string name="app_name">NewsReader</string>
-
-
-    <string name="source_newyorktimes">NYT</string>
-    <string name="source_wallstreetjournal">WSJ</string>
-    <string name="source_washingtonpost">WaPo</string>
-    <string name="source_huffingtonpost">HuffPo</string>
-    <string name="source_bloomberg">Bloomberg</string>
-    <string name="source_businessinsider">BI</string>
-
     <string name="empty_list">No articles found. Try another topic.</string>
     <string name="no_connection_message">No internet connection found</string>
 
@@ -45,6 +36,10 @@
     <!-- Label for Business Insider option -->
     <string name="settings_source_businessinsider_label">Business Insider</string>
     <string name="settings_source_businessinsider_value" translatable="false">business-insider</string>
+
+    <!-- Label for Saved Articles option -->
+    <string name="settings_source_saved_articles_label">My Saved Articles</string>
+    <string name="settings_source_saved_articles_value" translatable="false">the-new-york-times</string>
 
     <!-- Strings For Article Sort Preference -->
     <string name="settings_sort_by_label">Sort By</string>

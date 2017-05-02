@@ -2,6 +2,7 @@ package com.example.android.newsreader;
 
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -10,10 +11,12 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,10 +48,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private Adapter adapter;
     private String NYT_BASE_API_REQUEST_URL = "http://api.nytimes.com/svc/topstories/v2";
     private String BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles";
-    private String WAPO_BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles?source=the-washington-post&sortBy=top";
-    private String HUFFPO_BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles?source=the-huffington-post&sortBy=top";
-    private String BLOOM_BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles?source=bloomberg&sortBy=top";
-    private String BI_BASE_API_REQUEST_URL = "";
     private static final int ARTICLE_LOADER_ID = 1;
     private List<Article> mListArticle;
 
@@ -76,6 +75,45 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //            emptyTextView.setText(R.string.no_connection_message);
             Toast.makeText(this, R.string.empty_list, Toast.LENGTH_SHORT).show();
         }
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition();
+
+                if (direction == ItemTouchHelper.LEFT) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("Are you sure to save this article?");
+
+                    builder.setNegativeButton("SAVE", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            
+
+
+                            adapter.notifyItemRemoved(position);
+                            mListArticle.remove(position);
+                            return;
+                        }
+                    }).setPositiveButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            adapter.notifyItemRemoved(position + 1);
+                            adapter.notifyItemRangeChanged(position, adapter.getItemCount());
+                            return;
+                        }
+                    }).show();
+                }
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView); //set swipe to recylcerview
     }
 
     @Override
@@ -123,8 +161,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 //            progressBar.setVisibility(View.GONE);
             mRecyclerView.setAdapter(adapter);
             int columnCount = 1;
-            StaggeredGridLayoutManager sglm =
-                    new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+            GridLayoutManager sglm =
+                    new GridLayoutManager(this, columnCount);
             mRecyclerView.setLayoutManager(sglm);
         }
 //        emptyTextView.setText(R.string.empty_list);

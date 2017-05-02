@@ -8,13 +8,27 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
-public class SettingsActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import timber.log.Timber;
+
+public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
+
+    @BindView(R.id.submitButton)
+    Button submitButton;
+
+    private static int mPrefIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        ButterKnife.bind(this);
+
+        submitButton.setOnClickListener(this);
     }
 
     public static class ArticlePreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
@@ -37,6 +51,9 @@ public class SettingsActivity extends AppCompatActivity {
             if (preference instanceof ListPreference) {
                 ListPreference listPref = (ListPreference) preference;
                 int prefIndex = listPref.findIndexOfValue(stringValue);
+                mPrefIndex = prefIndex;
+                Timber.d("mPrefIndex");
+                Timber.d(String.valueOf(mPrefIndex));
                 if (prefIndex >= 0) {
                     CharSequence[] labels = listPref.getEntries();
                     preference.setSummary(labels[prefIndex]);
@@ -56,9 +73,20 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onClick(View view) {
+        if(mPrefIndex == 6){
+            Intent savedArticlesIntent = new Intent(this, SavedArticlesActivity.class);
+            startActivity(savedArticlesIntent);
+        } else {
+            Intent mainIntent = new Intent(this, MainActivity.class);
+            startActivity(mainIntent);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent backIntent = new Intent(this,MainActivity.class);
+        Intent backIntent = new Intent(this, MainActivity.class);
         startActivity(backIntent);
     }
 }

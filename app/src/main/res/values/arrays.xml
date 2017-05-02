@@ -7,6 +7,7 @@
         <item>@string/settings_source_huffpo_label</item>
         <item>@string/settings_source_bloomberg_label</item>
         <item>@string/settings_source_businessinsider_label</item>
+        <item>@string/settings_source_saved_articles_label</item>
     </string-array>
 
     <string-array name="settings_source_values">
@@ -16,6 +17,7 @@
         <item>@string/settings_source_huffpo_value</item>
         <item>@string/settings_source_bloomberg_value</item>
         <item>@string/settings_source_businessinsider_value</item>
+        <item>@string/settings_source_saved_articles_value</item>
     </string-array>
 
     <string-array name="settings_sort_by_labels">

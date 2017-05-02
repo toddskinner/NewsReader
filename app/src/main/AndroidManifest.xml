@@ -22,7 +22,9 @@
         <activity android:name=".SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.android.newsreader.MainActivity"/>
+                android:value="com.example.android.newsreader.MainActivity" />
         </activity>
+        <activity android:name=".SavedArticlesActivity"></activity>
     </application>
+
 </manifest>
