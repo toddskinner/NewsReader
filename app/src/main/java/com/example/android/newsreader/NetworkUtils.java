@@ -85,10 +85,10 @@ public final class NetworkUtils {
                 String publishedDate = jsonCurrentArticle.getString("publishedAt");
                 String title = jsonCurrentArticle.getString("title");
                 String url = jsonCurrentArticle.getString("url");
+
+                Timber.d("Network Utils URL = " + url);
+
                 String thumbnailUrl = jsonCurrentArticle.getString("urlToImage");
-
-                Timber.d(thumbnailUrl);
-
                 articles.add(new Article(description, publishedDate, title, url, thumbnailUrl));
             }
         } catch (JSONException e){

@@ -1,7 +1,6 @@
 package com.example.android.newsreader;
 
 import android.app.LoaderManager;
-import android.content.AsyncQueryHandler;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -66,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 //        listView.setEmptyView(emptyTextView);
 
+        Timber.d("MainActivity");
+
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
@@ -78,50 +79,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Toast.makeText(this, R.string.empty_list, Toast.LENGTH_SHORT).show();
         }
 
-        //reference for code below: http://stackoverflow.com/questions/27293960/swipe-to-dismiss-for-recyclerview
-
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
-                final int position = viewHolder.getAdapterPosition();
-
-                if (direction == ItemTouchHelper.LEFT) {
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setMessage("Save this article?");
-
-                    builder.setNegativeButton("SAVE", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ContentValues contentValues = new ContentValues();
-                            Article currentArticle = mListArticle.get(position);
-                            contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_TITLE, currentArticle.getWebTitle());
-                            contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_DESCRIPTION, currentArticle.getDescription());
-                            contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_DATE, currentArticle.getWebPublicationDate());
-                            contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_THUMBNAIL, currentArticle.getThumbnailUrl());
-                            contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_URL, currentArticle.getWebTitle());
-                            queryHandler.startInsert(1, null, SavedArticlesContract.SavedArticlesEntry.CONTENT_URI, contentValues);
-
-                            adapter.notifyItemRemoved(position);
-                            mListArticle.remove(position);
-                            return;
-                        }
-                    }).setPositiveButton("CANCEL", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            adapter.notifyItemRemoved(position + 1);
-                            adapter.notifyItemRangeChanged(position, adapter.getItemCount());
-                            return;
-                        }
-                    }).show();
-                }
-            }
-        };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
@@ -133,9 +90,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getString(R.string.settings_source_key),
                 getString(R.string.settings_source_default));
 
-            String articleSortBy = sharedPrefs.getString(
-                    getString(R.string.settings_sort_by_key),
-                    getString(R.string.settings_sort_by_default));
+            String articleSortBy = "top";
+//                    = sharedPrefs.getString(
+//                    getString(R.string.settings_sort_by_key),
+//                    getString(R.string.settings_sort_by_default));
 
             Uri baseUri = Uri.parse(BASE_API_REQUEST_URL);
             Uri.Builder uriBuilder = baseUri.buildUpon();
@@ -230,24 +188,78 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
-    AsyncQueryHandler queryHandler = new AsyncQueryHandler(getContentResolver()){
+//    AsyncQueryHandler queryHandler = new AsyncQueryHandler(getApplicationContext().getContentResolver()){
+//        @Override
+//        protected void onInsertComplete(int token, Object cookie, Uri uri) {
+//            if (uri != null) {
+//                System.out.println("Saved " + uri.toString());
+//            }
+//        }
+//
+//        @Override
+//        protected void onDeleteComplete(int token, Object cookie, int result) {
+//            if (result > 0) {
+//                System.out.println("Deleted");
+//            } else {
+//                System.out.println("Delete failed");
+//            }
+//        }
+//    };
+
+    //reference for code below: http://stackoverflow.com/questions/27293960/swipe-to-dismiss-for-recyclerview
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
-        protected void onInsertComplete(int token, Object cookie, Uri uri) {
-            if (uri != null) {
-                System.out.println("Saved " + uri.toString());
-            }
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
         }
 
         @Override
-        protected void onDeleteComplete(int token, Object cookie, int result) {
-            if (result > 0) {
-                System.out.println("Deleted");
-            } else {
-                System.out.println("Delete failed");
+        public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
+            final int position = viewHolder.getAdapterPosition();
+
+            if (direction == ItemTouchHelper.LEFT) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("Save this article?");
+
+                builder.setNegativeButton("SAVE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveItem(position);
+                        adapter.notifyItemRemoved(position);
+                        mListArticle.remove(position);
+                        return;
+                    }
+                }).setPositiveButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.notifyItemRemoved(position + 1);
+                        adapter.notifyItemRangeChanged(position, adapter.getItemCount());
+                        return;
+                    }
+                }).show();
             }
         }
     };
 
+    private void saveItem(int position){
+
+        ContentValues contentValues = new ContentValues();
+        Article currentArticle = mListArticle.get(position);
+        contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_TITLE, currentArticle.getWebTitle());
+        contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_DESCRIPTION, currentArticle.getDescription());
+        contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_DATE, currentArticle.getWebPublicationDate());
+        contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_THUMBNAIL, currentArticle.getThumbnailUrl());
+        contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_URL, currentArticle.getWebUrl());
+        Uri newUri = getContentResolver().insert(SavedArticlesContract.SavedArticlesEntry.CONTENT_URI, contentValues);
+
+        if (newUri != null) {
+            Toast.makeText(this, R.string.toast_success, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.toast_fail, Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

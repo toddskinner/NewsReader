@@ -41,8 +41,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             Preference articleSource = findPreference(getString(R.string.settings_source_key));
             bindPreferenceSummaryToValue(articleSource);
 
-            Preference articlesTopic = findPreference(getString(R.string.settings_sort_by_key));
-            bindPreferenceSummaryToValue(articlesTopic);
+//            Preference articlesTopic = findPreference(getString(R.string.settings_sort_by_key));
+//            bindPreferenceSummaryToValue(articlesTopic);
         }
 
         @Override

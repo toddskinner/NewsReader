@@ -50,20 +50,6 @@
                 android:textColor="@color/textColorTitle"/>
 
             <TextView
-                android:id="@+id/section_name"
-                style="@style/TextAppearance.AppCompat.Subhead"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:paddingBottom="@dimen/list_item_title_LTR_padding"
-                android:paddingLeft="@dimen/list_item_title_LTR_padding"
-                android:paddingRight="@dimen/list_item_title_LTR_padding"
-                android:textSize="@dimen/list_item_byline_text_size"
-                android:textColor="@color/textColorTitle" />
-
-            <TextView
                 android:id="@+id/publication_date"
                 style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="match_parent"

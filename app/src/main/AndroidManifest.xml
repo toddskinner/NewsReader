@@ -15,7 +15,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,7 +23,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.newsreader.MainActivity" />
         </activity>
-        <activity android:name=".SavedArticlesActivity"></activity>
+        <activity android:name=".SavedArticlesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" />
+            </intent-filter>
+        </activity>
+        <provider
+            android:authorities="com.example.android.newsreader"
+            android:name=".SavedArticlesProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

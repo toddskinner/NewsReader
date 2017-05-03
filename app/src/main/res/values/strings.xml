@@ -39,23 +39,31 @@
 
     <!-- Label for Saved Articles option -->
     <string name="settings_source_saved_articles_label">My Saved Articles</string>
-    <string name="settings_source_saved_articles_value" translatable="false">the-new-york-times</string>
+    <string name="settings_source_saved_articles_value" translatable="false">null</string>
+
+    <string name="toast_fail">Error saving article</string>
+
+    <string name="toast_success">Article saved</string>
+
+    <string name="delete_item_successful">Article deleted</string>
+
+    <string name="delete_item_failed">Error with deleting article</string>
 
     <!-- Strings For Article Sort Preference -->
-    <string name="settings_sort_by_label">Sort By</string>
-    <string name="settings_sort_by_key" translatable="false">Sort</string>
-    <string name="settings_sort_by_default" translatable="false">top</string>
+    <!--<string name="settings_sort_by_label">Sort By</string>-->
+    <!--<string name="settings_sort_by_key" translatable="false">Sort</string>-->
+    <!--<string name="settings_sort_by_default" translatable="false">top</string>-->
 
     <!-- Label for Top option -->
-    <string name="settings_sort_by_top_label">Top</string>
-    <string name="settings_sort_by_top_value" translatable="false">top</string>
+    <!--<string name="settings_sort_by_top_label">Top</string>-->
+    <!--<string name="settings_sort_by_top_value" translatable="false">top</string>-->
 
     <!-- Label for Latest option -->
-    <string name="settings_sort_by_latest_label">Latest</string>
-    <string name="settings_sort_by_latest_value" translatable="false">latest</string>
+    <!--<string name="settings_sort_by_latest_label">Latest</string>-->
+    <!--<string name="settings_sort_by_latest_value" translatable="false">latest</string>-->
 
     <!-- Label for Popular option -->
-    <string name="settings_sort_by_popular_label">Popular</string>
-    <string name="settings_sort_by_popular_value" translatable="false">popular</string>
+    <!--<string name="settings_sort_by_popular_label">Popular</string>-->
+    <!--<string name="settings_sort_by_popular_value" translatable="false">popular</string>-->
 
 </resources>
