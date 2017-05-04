@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private String BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles";
     private static final int ARTICLE_LOADER_ID = 1;
     private List<Article> mListArticle;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
