@@ -28,4 +28,13 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="ArticleDateTextStyle">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ArticleTitleTextStyle">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
 </resources>

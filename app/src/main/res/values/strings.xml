@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NewsReader</string>
+    <string name="app_name">News Reader</string>
     <string name="empty_list">No articles found. Try another topic.</string>
     <string name="no_connection_message">No internet connection found</string>
 
@@ -48,7 +48,9 @@
     <string name="delete_item_successful">Article deleted</string>
 
     <string name="delete_item_failed">Error with deleting article</string>
-
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_articles_list">No Articles Available</string>
     <!-- Strings For Article Sort Preference -->
     <!--<string name="settings_sort_by_label">Sort By</string>-->
     <!--<string name="settings_sort_by_key" translatable="false">Sort</string>-->

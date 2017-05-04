@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/widget_article_item_vertical_margin"
+    android:layout_marginTop="@dimen/widget_article_item_vertical_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/list_item_horizontal_padding"
+        android:paddingStart="@dimen/list_item_horizontal_padding"
+        android:paddingRight="@dimen/list_item_horizontal_padding"
+        android:paddingEnd="@dimen/list_item_horizontal_padding">
+
+        <TextView
+            android:id="@+id/widget_article_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            style="@style/ArticleTitleTextStyle"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/widget_article_title_text_size"
+            tools:text="Eagles Win the SuperBowl!" />
+
+        <TextView
+            android:id="@+id/widget_article_date"
+            style="@style/ArticleDateTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/list_item_horizontal_margin_end"
+            android:paddingLeft="@dimen/list_item_horizontal_margin"
+            android:paddingRight="@dimen/list_item_horizontal_margin_end"
+            android:paddingStart="@dimen/list_item_horizontal_margin"
+            android:textSize="@dimen/widget_article_date_text_size"
+            android:textColor="@color/light_grey"
+            android:gravity="end|center_vertical"
+            tools:text="2-3-18" />
+    </LinearLayout>
+</FrameLayout>

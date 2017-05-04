@@ -231,33 +231,8 @@ public class SavedArticlesActivity extends AppCompatActivity implements
                 null,
                 null);
 
-
-
-//        Timber.d("The article URI is " + articleUri.toString());
-//
-//
-//
-//        Timber.d("This specific article id is " + specificArticleId);
-//
-//        String mSelection = SavedArticlesContract.SavedArticlesEntry._ID + "=?";
-//        String[] mSelectionArgs = new String[]{specificArticleId};
-//
-//        Uri idQueryUri = SavedArticlesContract.SavedArticlesEntry.CONTENT_URI
-//                .buildUpon().appendQueryParameter(SavedArticlesContract.SavedArticlesEntry._ID, specificArticleId).build();
-//
-//        Cursor checkSavedArticlesCursor = getContentResolver().query(
-//                articleUri,
-//                null,
-//                mSelection,
-//                mSelectionArgs,
-//                null);
-
         if(articleCursor != null && articleCursor.moveToFirst()) {
             String articleWebAddress = articleCursor.getString(SavedArticlesLoader.Query.ARTICLE_URL);
-
-            Timber.d("Article Web Address");
-            Timber.d(articleWebAddress);
-
             Intent websiteIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleWebAddress));
             startActivity(websiteIntent);
         } else {
