@@ -40,8 +40,10 @@
                 app:layout_collapseMode="pin" >
 
                 <ImageView
+                    android:id="@+id/logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:src="@drawable/nytimes"
                     android:contentDescription="@string/app_name" />
 
             </android.support.v7.widget.Toolbar>

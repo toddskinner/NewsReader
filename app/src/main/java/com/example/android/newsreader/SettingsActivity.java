@@ -13,6 +13,8 @@ import android.widget.Button;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +42,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
+
+        Tracker tracker = (((MyApplication) getApplication()).getTracker());
+        tracker.setScreenName("Settings Screen");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     public static class ArticlePreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {

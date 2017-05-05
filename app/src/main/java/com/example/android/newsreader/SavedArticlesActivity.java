@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -54,6 +56,10 @@ public class SavedArticlesActivity extends AppCompatActivity implements
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        Tracker tracker = (((MyApplication) getApplication()).getTracker());
+        tracker.setScreenName("My Saved Articles Screen");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
 

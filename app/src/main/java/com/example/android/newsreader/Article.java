@@ -1,5 +1,7 @@
 package com.example.android.newsreader;
 
+import timber.log.Timber;
+
 /**
  * Created by toddskinner on 4/24/17.
  */
@@ -24,13 +26,24 @@ public class Article {
     }
 
     public String getWebPublicationDate(){
-        int splitIndex = mWebPublicationDate.indexOf("T");
-        String extractDate = mWebPublicationDate.substring(0, splitIndex);
-        String year = extractDate.substring(0,4);
-        String month = extractDate.substring(5,7);
-        String day = extractDate.substring(8,10);
-        String formattedDate = month + "-" + day + "-" + year;
-        return formattedDate;
+        if(mWebPublicationDate != null && !mWebPublicationDate.isEmpty()){
+            if(mWebPublicationDate.length() >= 10){
+                int splitIndex = mWebPublicationDate.indexOf("T");
+                String extractDate = mWebPublicationDate.substring(0, splitIndex);
+                String year = extractDate.substring(0,4);
+                String month = extractDate.substring(5,7);
+                String day = extractDate.substring(8,10);
+                String formattedDate = month + "-" + day + "-" + year;
+                mWebPublicationDate = formattedDate;
+            } else {
+                return mWebPublicationDate;
+            }
+
+        } else {
+            mWebPublicationDate = "Not Dated";
+        }
+        Timber.d("mWebPubDate = " + mWebPublicationDate);
+        return mWebPublicationDate;
     }
 
     public String getWebTitle(){

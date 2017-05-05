@@ -21,6 +21,7 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'NYT_API_KEY', NytApiKey
         it.buildConfigField 'String', 'API_KEY', ApiKey
+        it.buildConfigField 'String', 'TRACKING_ID', GoogleAnalyticsTrackingID
     }
 }
 

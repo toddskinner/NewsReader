@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string name="ga_trackingId">UA-98615180-1</string>
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <screenName name="com.example.android.newsreader.SavedArticlesActivity">My Saved Articles Screen</screenName>
+    <screenName name="com.example.android.newsreader.SettingsActivity">Settings Screen</screenName>
+    <screenName name="com.example.android.newsreader.MainActivity">Main Screen</screenName>
+</resources>

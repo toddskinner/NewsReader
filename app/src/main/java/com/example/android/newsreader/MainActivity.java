@@ -27,7 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -46,13 +47,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.logo)
+    ImageView mLogoView;
+
     public static final String LOG_TAG = MainActivity.class.getName();
     private Adapter adapter;
     private String NYT_BASE_API_REQUEST_URL = "http://api.nytimes.com/svc/topstories/v2";
     private String BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles";
     private static final int ARTICLE_LOADER_ID = 1;
     private List<Article> mListArticle;
-    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        ((MyApplication) getApplication()).startTracking();
+
+        Tracker tracker = (((MyApplication) getApplication()).getTracker());
+        tracker.setScreenName("Main Screen");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
@@ -91,23 +100,66 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         String articleSource = sharedPrefs.getString(
                 getString(R.string.settings_source_key),
                 getString(R.string.settings_source_default));
+        String articleSortBy = "top";
 
-            String articleSortBy = "top";
-//                    = sharedPrefs.getString(
-//                    getString(R.string.settings_sort_by_key),
-//                    getString(R.string.settings_sort_by_default));
+        Tracker tracker = (((MyApplication) getApplication()).getTracker());
 
-            Uri baseUri = Uri.parse(BASE_API_REQUEST_URL);
-            Uri.Builder uriBuilder = baseUri.buildUpon();
-            uriBuilder.appendQueryParameter("source", articleSource);
-            uriBuilder.appendQueryParameter("sortBy", articleSortBy);
-            uriBuilder.appendQueryParameter("apiKey", API_KEY);
+        if(articleSource.equals(getResources().getString(R.string.settings_source_nyt_value))){
+            mLogoView.setImageResource(R.drawable.nytimes);
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Article sources")
+                    .setAction("Read NYTimes")
+                    .setLabel("NYTimes")
+                    .build());
+        } else if(articleSource.equals(getResources().getString(R.string.settings_source_bloomberg_value))){
+            mLogoView.setImageResource(R.drawable.bloomberg);
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Article sources")
+                    .setAction("Read Bloomberg")
+                    .setLabel("Bloomberg")
+                    .build());
+        } else if(articleSource.equals(getResources().getString(R.string.settings_source_businessinsider_value))){
+            mLogoView.setImageResource(R.drawable.business_insider);
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Article sources")
+                    .setAction("Read Business Insider")
+                    .setLabel("Business Insider")
+                    .build());
+        } else if(articleSource.equals(getResources().getString(R.string.settings_source_huffpo_value))){
+            mLogoView.setImageResource(R.drawable.huffpost);
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Article sources")
+                    .setAction("Read Huffington Post")
+                    .setLabel("Huffington Post")
+                    .build());
+        } else if(articleSource.equals(getResources().getString(R.string.settings_source_wapo_value))){
+            mLogoView.setImageResource(R.drawable.washingtonpost);
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Article sources")
+                    .setAction("Read Washington Post")
+                    .setLabel("Washington Post")
+                    .build());
+        } else if(articleSource.equals(getResources().getString(R.string.settings_source_wsj_value))){
+            mLogoView.setImageResource(R.drawable.wallstreetjournal);
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Article sources")
+                    .setAction("Read WSJ")
+                    .setLabel("WSJ")
+                    .build());
+        } else {
+            mLogoView.setImageResource(0);
+        }
 
-            Timber.d("uribuilder");
-            Timber.d(uriBuilder.toString());
+        Uri baseUri = Uri.parse(BASE_API_REQUEST_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendQueryParameter("source", articleSource);
+        uriBuilder.appendQueryParameter("sortBy", articleSortBy);
+        uriBuilder.appendQueryParameter("apiKey", API_KEY);
 
-            return new ArticleLoader(this, uriBuilder.toString());
-//        }
+        Timber.d("uribuilder");
+        Timber.d(uriBuilder.toString());
+
+        return new ArticleLoader(this, uriBuilder.toString());
     }
 
     @Override
@@ -190,24 +242,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
-//    AsyncQueryHandler queryHandler = new AsyncQueryHandler(getApplicationContext().getContentResolver()){
-//        @Override
-//        protected void onInsertComplete(int token, Object cookie, Uri uri) {
-//            if (uri != null) {
-//                System.out.println("Saved " + uri.toString());
-//            }
-//        }
-//
-//        @Override
-//        protected void onDeleteComplete(int token, Object cookie, int result) {
-//            if (result > 0) {
-//                System.out.println("Deleted");
-//            } else {
-//                System.out.println("Delete failed");
-//            }
-//        }
-//    };
-
     //reference for code below: http://stackoverflow.com/questions/27293960/swipe-to-dismiss-for-recyclerview
 
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -246,7 +280,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     };
 
     private void saveItem(int position){
-
         ContentValues contentValues = new ContentValues();
         Article currentArticle = mListArticle.get(position);
         contentValues.put(SavedArticlesContract.SavedArticlesEntry.COLUMN_ARTICLE_TITLE, currentArticle.getWebTitle());
