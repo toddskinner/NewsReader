@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private String BASE_API_REQUEST_URL = "https://newsapi.org/v1/articles";
     private static final int ARTICLE_LOADER_ID = 1;
     private List<Article> mListArticle;
+    public static final String ACTION_DATA_UPDATED = "com.example.android.newsreader.ACTION_DATA_UPDATED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -324,6 +325,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         if (newUri != null) {
             Toast.makeText(this, R.string.toast_success, Toast.LENGTH_SHORT).show();
+
+            Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+            this.getApplicationContext().sendBroadcast(dataUpdatedIntent);
         } else {
             Toast.makeText(this, R.string.toast_fail, Toast.LENGTH_SHORT).show();
         }

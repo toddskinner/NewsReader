@@ -41,6 +41,7 @@ public class SavedArticlesActivity extends AppCompatActivity implements
     public static final String LOG_TAG = SavedArticlesActivity.class.getName();
     private SavedArticlesAdapter adapter;
     private Cursor mCursor;
+    public static final String ACTION_DATA_UPDATED = "com.example.android.newsreader.ACTION_DATA_UPDATED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,6 +223,9 @@ public class SavedArticlesActivity extends AppCompatActivity implements
             adapter.notifyDataSetChanged();
             Toast.makeText(this, getString(R.string.delete_item_successful),
                     Toast.LENGTH_SHORT).show();
+
+            Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+            this.getApplicationContext().sendBroadcast(dataUpdatedIntent);
         }
     }
 

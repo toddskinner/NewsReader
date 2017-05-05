@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.widget.RemoteViews;
 
+import com.example.android.newsreader.MainActivity;
 import com.example.android.newsreader.R;
 import com.example.android.newsreader.SavedArticlesActivity;
 
@@ -51,10 +52,12 @@ public class ArticlesWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
-                new ComponentName(context, getClass()));
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
+        if(MainActivity.ACTION_DATA_UPDATED.equals(intent.getAction()) || SavedArticlesActivity.ACTION_DATA_UPDATED.equals(intent.getAction())){
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
+                    new ComponentName(context, getClass()));
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
