@@ -17,6 +17,8 @@
         android:orientation="vertical">
 
         <!--suppress AndroidLintContentDescription -->
+
+
         <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="150dp"

@@ -27,7 +27,7 @@ public class Article {
 
     public String getWebPublicationDate(){
         if(mWebPublicationDate != null && !mWebPublicationDate.isEmpty()){
-            if(mWebPublicationDate.length() >= 10){
+            if(mWebPublicationDate.length() > 10 ){
                 int splitIndex = mWebPublicationDate.indexOf("T");
                 String extractDate = mWebPublicationDate.substring(0, splitIndex);
                 String year = extractDate.substring(0,4);

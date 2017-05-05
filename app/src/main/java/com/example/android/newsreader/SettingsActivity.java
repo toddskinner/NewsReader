@@ -2,6 +2,7 @@ package com.example.android.newsreader;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -46,6 +47,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         Tracker tracker = (((MyApplication) getApplication()).getTracker());
         tracker.setScreenName("Settings Screen");
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+        final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_black, null);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
     }
 
     public static class ArticlePreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {

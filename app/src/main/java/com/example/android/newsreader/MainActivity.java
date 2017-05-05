@@ -87,6 +87,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String articleSource = sharedPrefs.getString(getString(R.string.settings_source_key), getString(R.string.settings_source_default));
+        if(articleSource.equals(getResources().getString(R.string.settings_source_nyt_value))){
+            mLogoView.setImageResource(R.drawable.nytimes);
+        } else if(articleSource.equals(getResources().getString(R.string.settings_source_bloomberg_value))){
+            mLogoView.setImageResource(R.drawable.bloomberg);
+        } else if(articleSource.equals(getResources().getString(R.string.settings_source_businessinsider_value))){
+            mLogoView.setImageResource(R.drawable.business_insider);
+        } else if(articleSource.equals(getResources().getString(R.string.settings_source_huffpo_value))){
+            mLogoView.setImageResource(R.drawable.huffpost);
+        } else if(articleSource.equals(getResources().getString(R.string.settings_source_wapo_value))){
+            mLogoView.setImageResource(R.drawable.washingtonpost);
+        } else if(articleSource.equals(getResources().getString(R.string.settings_source_wsj_value))){
+            mLogoView.setImageResource(R.drawable.wallstreetjournal);
+        } else {
+            mLogoView.setImageResource(0);
+        }
+
         ((MyApplication) getApplication()).startTracking();
 
         Tracker tracker = (((MyApplication) getApplication()).getTracker());
@@ -105,49 +123,47 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Tracker tracker = (((MyApplication) getApplication()).getTracker());
 
         if(articleSource.equals(getResources().getString(R.string.settings_source_nyt_value))){
-            mLogoView.setImageResource(R.drawable.nytimes);
             tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("Article sources")
                     .setAction("Read NYTimes")
                     .setLabel("NYTimes")
                     .build());
         } else if(articleSource.equals(getResources().getString(R.string.settings_source_bloomberg_value))){
-            mLogoView.setImageResource(R.drawable.bloomberg);
             tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("Article sources")
                     .setAction("Read Bloomberg")
                     .setLabel("Bloomberg")
                     .build());
         } else if(articleSource.equals(getResources().getString(R.string.settings_source_businessinsider_value))){
-            mLogoView.setImageResource(R.drawable.business_insider);
             tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("Article sources")
                     .setAction("Read Business Insider")
                     .setLabel("Business Insider")
                     .build());
         } else if(articleSource.equals(getResources().getString(R.string.settings_source_huffpo_value))){
-            mLogoView.setImageResource(R.drawable.huffpost);
             tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("Article sources")
                     .setAction("Read Huffington Post")
                     .setLabel("Huffington Post")
                     .build());
         } else if(articleSource.equals(getResources().getString(R.string.settings_source_wapo_value))){
-            mLogoView.setImageResource(R.drawable.washingtonpost);
             tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("Article sources")
                     .setAction("Read Washington Post")
                     .setLabel("Washington Post")
                     .build());
         } else if(articleSource.equals(getResources().getString(R.string.settings_source_wsj_value))){
-            mLogoView.setImageResource(R.drawable.wallstreetjournal);
             tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("Article sources")
                     .setAction("Read WSJ")
                     .setLabel("WSJ")
                     .build());
         } else {
-            mLogoView.setImageResource(0);
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Article sources")
+                    .setAction("Read My Saved Articles")
+                    .setLabel("My Saved Articles")
+                    .build());
         }
 
         Uri baseUri = Uri.parse(BASE_API_REQUEST_URL);
