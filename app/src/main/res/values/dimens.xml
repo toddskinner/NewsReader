@@ -14,23 +14,19 @@
     <dimen name="list_side_margin">4dp</dimen>
     <dimen name="list_toolbar_side_margin">0dp</dimen>
 
-    <dimen name="detail_title_text_size">24sp</dimen>
-    <dimen name="detail_body_text_size">20sp</dimen>
-    <dimen name="detail_byline_text_size">16sp</dimen>
-
-    <dimen name="list_item_title_text_size">20sp</dimen>
-    <dimen name="list_item_byline_text_size">16sp</dimen>
+    <dimen name="list_item_title_text_size">18sp</dimen>
+    <dimen name="list_item_byline_text_size">14sp</dimen>
 
     <!-- Widget -->
-    <dimen name="widget_detail_default_width">250dp</dimen>
-    <dimen name="widget_detail_default_height">180dp</dimen>
+    <dimen name="widget_detail_default_width">315dp</dimen>
+    <dimen name="widget_detail_default_height">165dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
-    <dimen name="widget_title_text_size">24sp</dimen>
+    <dimen name="widget_title_text_size">22sp</dimen>
     <dimen name="list_item_horizontal_margin_end">5dp</dimen>
     <dimen name="widget_article_title_text_size">18sp</dimen>
     <dimen name="widget_article_date_text_size">18sp</dimen>
     <dimen name="widget_article_item_vertical_margin">4dp</dimen>
-    <dimen name="list_item_horizontal_padding">16dp</dimen>
+    <dimen name="list_item_horizontal_padding">10dp</dimen>
     <dimen name="list_item_horizontal_margin">10dp</dimen>
 
 </resources>

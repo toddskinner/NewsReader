@@ -110,7 +110,9 @@ public class SavedArticlesProvider extends ContentProvider {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(SavedArticlesEntry.TABLE_NAME, null, values);
+//        long newRowId = db.insert(SavedArticlesEntry.TABLE_NAME, null, values);
+        long newRowId = db.insertWithOnConflict(SavedArticlesEntry.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+
         if(newRowId == -1){
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;

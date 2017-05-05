@@ -102,7 +102,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else if(articleSource.equals(getResources().getString(R.string.settings_source_wsj_value))){
             mLogoView.setImageResource(R.drawable.wallstreetjournal);
         } else {
-            mLogoView.setImageResource(0);
+            Intent savedArticlesIntent = new Intent(this, SavedArticlesActivity.class);
+            startActivity(savedArticlesIntent);
         }
 
         ((MyApplication) getApplication()).startTracking();
@@ -279,8 +280,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         saveItem(position);
-                        adapter.notifyItemRemoved(position);
-                        mListArticle.remove(position);
+
+                        if (position == 0) {
+
+
+
+
+
+                            //This crashes
+//                            mListArticle.remove(position);
+//                            adapter.notifyItemRemoved(position);
+
+                            mListArticle.remove(position);
+                            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+//                            adapter.notifyDataSetChanged();
+                        } else {
+                            adapter.notifyItemRemoved(position);
+                        }
+//                        mListArticle.remove(position);
                         return;
                     }
                 }).setPositiveButton("CANCEL", new DialogInterface.OnClickListener() {

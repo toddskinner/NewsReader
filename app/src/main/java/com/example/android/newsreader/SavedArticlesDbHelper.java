@@ -10,7 +10,7 @@ import com.example.android.newsreader.SavedArticlesContract.SavedArticlesEntry;
  */
 
 public class SavedArticlesDbHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "savedarticles.db";
     private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + SavedArticlesEntry.TABLE_NAME + " ("
             + SavedArticlesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -18,7 +18,7 @@ public class SavedArticlesDbHelper extends SQLiteOpenHelper {
             + SavedArticlesEntry.COLUMN_ARTICLE_DESCRIPTION + " TEXT,"
             + SavedArticlesEntry.COLUMN_ARTICLE_DATE + " TEXT,"
             + SavedArticlesEntry.COLUMN_ARTICLE_THUMBNAIL + " TEXT,"
-            + SavedArticlesEntry.COLUMN_ARTICLE_URL + " TEXT" + ")";
+            + SavedArticlesEntry.COLUMN_ARTICLE_URL + " TEXT UNIQUE" + ")";
 
     public SavedArticlesDbHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
