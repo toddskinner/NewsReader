@@ -10,11 +10,4 @@
         android:key="@string/settings_source_key"
         android:title="@string/settings_source_label" />
 
-    <!--<ListPreference-->
-        <!--android:defaultValue="@string/settings_sort_by_default"-->
-        <!--android:entries="@array/settings_sort_by_labels"-->
-        <!--android:entryValues="@array/settings_sort_by_values"-->
-        <!--android:key="@string/settings_sort_by_key"-->
-        <!--android:title="@string/settings_sort_by_label" />-->
-
 </PreferenceScreen>

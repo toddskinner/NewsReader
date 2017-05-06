@@ -37,5 +37,7 @@
     <dimen name="widget_article_item_vertical_margin">4dp</dimen>
     <dimen name="widget_list_item_horizontal_padding">10dp</dimen>
     <dimen name="widget_list_item_horizontal_margin">10dp</dimen>
+    <dimen name="widget_info_min_width">325dp</dimen>
+    <dimen name="widget_info_min_height">175dp</dimen>
 
 </resources>
