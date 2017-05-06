@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.error_main)
     TextView emptyTextView;
 
+    @BindView(R.id.loading_indicator)
+    ProgressBar mProgressBar;
+
     public static final String LOG_TAG = MainActivity.class.getName();
     private Adapter adapter;
     private String NYT_BASE_API_REQUEST_URL = "http://api.nytimes.com/svc/topstories/v2";
@@ -77,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             emptyTextView.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
         } else {
-//            progressBar.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
             emptyTextView.setText(R.string.no_connection_message);
             emptyTextView.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
@@ -185,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (data != null && !data.isEmpty()) {
             adapter = new Adapter(data);
             adapter.setHasStableIds(true);
-//            progressBar.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
             mRecyclerView.setAdapter(adapter);
             int columnCount = 1;
             GridLayoutManager sglm =
