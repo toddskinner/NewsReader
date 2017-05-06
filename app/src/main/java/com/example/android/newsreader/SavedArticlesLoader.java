@@ -14,10 +14,6 @@ public class SavedArticlesLoader extends CursorLoader {
         return new SavedArticlesLoader(context, SavedArticlesContract.SavedArticlesEntry.buildDirUri());
     }
 
-//    public static SavedArticlesLoader newInstanceForItemId(Context context, long itemId) {
-//        return new ArticleLoader(context, SavedArticlesContract.SavedArticlesEntry.buildDirUri());
-//    }
-
     public SavedArticlesLoader(Context context, Uri uri) {
         super(context, uri, Query.ARTICLE, null, null, SavedArticlesContract.SavedArticlesEntry.DEFAULT_SORT);
     }

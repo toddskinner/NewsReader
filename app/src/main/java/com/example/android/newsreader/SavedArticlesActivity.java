@@ -38,6 +38,9 @@ public class SavedArticlesActivity extends AppCompatActivity implements
     @BindView(R.id.saved_articles_recycler_view)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.error)
+    TextView error;
+
     public static final String LOG_TAG = SavedArticlesActivity.class.getName();
     private SavedArticlesAdapter adapter;
     private Cursor mCursor;
@@ -63,7 +66,6 @@ public class SavedArticlesActivity extends AppCompatActivity implements
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
-
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         Timber.d("Saved Articles");
@@ -78,6 +80,16 @@ public class SavedArticlesActivity extends AppCompatActivity implements
         adapter = new SavedArticlesAdapter(cursor);
         adapter.setHasStableIds(true);
         mRecyclerView.setAdapter(adapter);
+
+        if (adapter.getItemCount() == 0) {
+            error.setText(getString(R.string.error_no_saved_articles));
+            error.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            error.setVisibility(View.GONE);
+        }
+
         int columnCount = 1;
         GridLayoutManager sglm = new GridLayoutManager(this, columnCount);
         mRecyclerView.setLayoutManager(sglm);
@@ -119,15 +131,6 @@ public class SavedArticlesActivity extends AppCompatActivity implements
             holder.articleTitleTextView.setText(mCursor.getString(SavedArticlesLoader.Query.TITLE));
             holder.publicationDateTextView.setText(mCursor.getString(SavedArticlesLoader.Query.PUBLISHED_DATE));
             String thumbnailUrl = mCursor.getString(SavedArticlesLoader.Query.THUMB_URL);
-
-
-            Timber.d("ID =" + mCursor.getString(SavedArticlesLoader.Query._ID));
-            Timber.d("Title =" + mCursor.getString(SavedArticlesLoader.Query.TITLE));
-            Timber.d("Date = " + mCursor.getString(SavedArticlesLoader.Query.PUBLISHED_DATE));
-            Timber.d("Description = " + mCursor.getString(SavedArticlesLoader.Query.DESCRIPTION));
-            Timber.d("Thumb = " + mCursor.getString(SavedArticlesLoader.Query.THUMB_URL));
-            Timber.d("WebUrl =" + mCursor.getString(SavedArticlesLoader.Query.ARTICLE_URL));
-
             Picasso.with(holder.thumbnailView.getContext()).load(thumbnailUrl).into(holder.thumbnailView);
         }
 
@@ -149,24 +152,6 @@ public class SavedArticlesActivity extends AppCompatActivity implements
             publicationDateTextView = (TextView) view.findViewById(R.id.publication_date);
         }
     }
-
-//    AsyncQueryHandler queryHandler = new AsyncQueryHandler(getContentResolver()){
-//        @Override
-//        protected void onInsertComplete(int token, Object cookie, Uri uri) {
-//            if (uri != null) {
-//                System.out.println("Saved " + uri.toString());
-//            }
-//        }
-//
-//        @Override
-//        protected void onDeleteComplete(int token, Object cookie, int result) {
-//            if (result > 0) {
-//                System.out.println("Deleted");
-//            } else {
-//                System.out.println("Delete failed");
-//            }
-//        }
-//    };
 
     //reference for code below: http://stackoverflow.com/questions/27293960/swipe-to-dismiss-for-recyclerview
 
@@ -205,13 +190,8 @@ public class SavedArticlesActivity extends AppCompatActivity implements
     };
 
     private void deleteItem(int position) {
-        Timber.d("Position =" + position);
-
         mCursor.moveToPosition(position);
         String articlesId = mCursor.getString(SavedArticlesLoader.Query._ID);
-
-        Timber.d("Article ID " + articlesId);
-
         int articleDeleted = getContentResolver().delete(
                 SavedArticlesContract.SavedArticlesEntry.CONTENT_URI,
                 SavedArticlesContract.SavedArticlesEntry._ID + "=" + articlesId,
@@ -247,31 +227,8 @@ public class SavedArticlesActivity extends AppCompatActivity implements
             startActivity(websiteIntent);
         } else {
             articleCursor.moveToFirst();
-
-            Timber.d("NOPE");
-
             String articleWebAddress = articleCursor.getString(SavedArticlesLoader.Query.ARTICLE_URL);
-
-            Timber.d("Article Web Address");
-            Timber.d(articleWebAddress);
-
-
         }
-
-
-
-
-
-
-
-
-
-//        Intent getArticle = new Intent(Intent.ACTION_VIEW,
-//                SavedArticlesContract.SavedArticlesEntry.buildArticleUri(adapter.getItemId(vh.getAdapterPosition())));
-//        if (getArticle.resolveActivity(getPackageManager()) != null) {
-//            startActivity(getArticle);
-//        }
-//        Timber.d(String.valueOf(getPackageManager().queryIntentActivities(getArticle, PackageManager.MATCH_DEFAULT_ONLY)));
     }
 
     @Override

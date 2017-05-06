@@ -18,53 +18,13 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import timber.log.Timber;
-
 /**
  * Created by toddskinner on 4/24/17.
  */
 
 public final class NetworkUtils {
 
-    public static final String LOG_TAG = MainActivity.class.getName();
-
-    /**
-     * Return a list of {@link Article} objects that has been built up from
-     * parsing a JSON response.
-     */
-//    public static List<Article> extractNYTArticlesFromJson(String articlesJSON){
-//
-//        if (TextUtils.isEmpty(articlesJSON)){
-//            return null;
-//        }
-//
-//        List<Article> articles = new ArrayList<>();
-//
-//        try {
-//            JSONObject baseJsonResponse = new JSONObject(articlesJSON);
-//            JSONArray resultsArray = baseJsonResponse.getJSONArray("results");
-//            Timber.d("results");
-//            Timber.d(String.valueOf(resultsArray.length()));
-//
-//            for(int i = 0; i < resultsArray.length(); i++){
-//                JSONObject jsonCurrentArticle = resultsArray.getJSONObject(i);
-//                String section = jsonCurrentArticle.getString("section");
-//                String publishedDate = jsonCurrentArticle.getString("published_date");
-//                String title = jsonCurrentArticle.getString("title");
-//                String url = jsonCurrentArticle.getString("url");
-//
-//                JSONArray multimediaArray = jsonCurrentArticle.getJSONArray("multimedia");
-//                String thumbnailUrl = multimediaArray.getJSONObject(3).getString("url");
-//
-//                Timber.d(thumbnailUrl);
-//
-//                articles.add(new Article(section, publishedDate, title, url, thumbnailUrl));
-//            }
-//        } catch (JSONException e){
-//            Log.e("QueryUtils", "Problem parsing the book JSON results", e);
-//        }
-//        return articles;
-//    }
+    private static final String LOG_TAG = MainActivity.class.getName();
 
     public static List<Article> extractArticlesFromJson(String articlesJSON){
 
@@ -77,7 +37,6 @@ public final class NetworkUtils {
         try {
             JSONObject baseJsonResponse = new JSONObject(articlesJSON);
             JSONArray articlesArray = baseJsonResponse.getJSONArray("articles");
-            Timber.d(String.valueOf(articlesArray.length()));
 
             for(int i = 0; i < articlesArray.length(); i++){
                 JSONObject jsonCurrentArticle = articlesArray.getJSONObject(i);
@@ -85,9 +44,6 @@ public final class NetworkUtils {
                 String publishedDate = jsonCurrentArticle.getString("publishedAt");
                 String title = jsonCurrentArticle.getString("title");
                 String url = jsonCurrentArticle.getString("url");
-
-                Timber.d("Network Utils URL = " + url);
-
                 String thumbnailUrl = jsonCurrentArticle.getString("urlToImage");
                 articles.add(new Article(description, publishedDate, title, url, thumbnailUrl));
             }

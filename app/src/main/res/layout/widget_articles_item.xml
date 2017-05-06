@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/list_item_horizontal_padding"
-        android:paddingStart="@dimen/list_item_horizontal_padding"
-        android:paddingRight="@dimen/list_item_horizontal_padding"
-        android:paddingEnd="@dimen/list_item_horizontal_padding">
+        android:paddingLeft="@dimen/widget_list_item_horizontal_padding"
+        android:paddingStart="@dimen/widget_list_item_horizontal_padding"
+        android:paddingRight="@dimen/widget_list_item_horizontal_padding"
+        android:paddingEnd="@dimen/widget_list_item_horizontal_padding">
 
         <TextView
             android:id="@+id/widget_article_title"
@@ -23,23 +23,25 @@
             android:gravity="start|center_vertical"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="16sp"
+            android:textSize="@dimen/widget_article_title_text_size"
+            android:contentDescription="@string/widget_article_title_description"
             tools:text="Eagles Win the SuperBowl!" />
 
         <TextView
             android:id="@+id/widget_article_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp"
-            android:paddingEnd="@dimen/list_item_horizontal_margin_end"
-            android:paddingLeft="@dimen/list_item_horizontal_margin"
-            android:paddingRight="@dimen/list_item_horizontal_margin_end"
-            android:paddingStart="@dimen/list_item_horizontal_margin"
-            android:textSize="14sp"
+            android:layout_marginStart="@dimen/widget_list_item_horizontal_margin_start"
+            android:layout_marginLeft="@dimen/widget_list_item_horizontal_margin_start"
+            android:paddingEnd="@dimen/widget_list_item_horizontal_margin_end"
+            android:paddingLeft="@dimen/widget_list_item_horizontal_margin"
+            android:paddingRight="@dimen/widget_list_item_horizontal_margin_end"
+            android:paddingStart="@dimen/widget_list_item_horizontal_margin"
+            android:textSize="@dimen/widget_article_date_text_size"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:gravity="end|center_vertical"
+            android:contentDescription="@string/widget_article_date_description"
             tools:text="2-3-18" />
     </LinearLayout>
 </FrameLayout>

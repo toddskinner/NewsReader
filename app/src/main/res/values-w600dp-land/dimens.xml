@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="list_item_card_margin">4dp</dimen>
+    <dimen name="list_item_title_LTR_padding">16dp</dimen>
+    <dimen name="list_item_description_text_size">20sp</dimen>
+    <dimen name="list_item_title_text_size">24sp</dimen>
+    <dimen name="list_item_title_bottom_padding">4dp</dimen>
+    <dimen name="thumbnail_height">240dp</dimen>
+    <dimen name="thumbnail_width">240dp</dimen>
+    <dimen name="list_item_byline_text_size">18sp</dimen>
+</resources>

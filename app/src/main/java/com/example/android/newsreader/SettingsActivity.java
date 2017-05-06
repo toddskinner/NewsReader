@@ -19,7 +19,6 @@ import com.google.android.gms.analytics.Tracker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,9 +60,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
             Preference articleSource = findPreference(getString(R.string.settings_source_key));
             bindPreferenceSummaryToValue(articleSource);
-
-//            Preference articlesTopic = findPreference(getString(R.string.settings_sort_by_key));
-//            bindPreferenceSummaryToValue(articlesTopic);
         }
 
         @Override
@@ -73,8 +69,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 ListPreference listPref = (ListPreference) preference;
                 int prefIndex = listPref.findIndexOfValue(stringValue);
                 mPrefIndex = prefIndex;
-                Timber.d("mPrefIndex");
-                Timber.d(String.valueOf(mPrefIndex));
                 if (prefIndex >= 0) {
                     CharSequence[] labels = listPref.getEntries();
                     preference.setSummary(labels[prefIndex]);

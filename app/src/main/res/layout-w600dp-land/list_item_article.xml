@@ -73,8 +73,20 @@
 
                 <TextView
                     android:id="@+id/article_description"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"/>
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:ellipsize="end"
+                    android:maxLines="6"
+                    android:paddingBottom="@dimen/list_item_title_LTR_padding"
+                    android:paddingLeft="@dimen/list_item_title_LTR_padding"
+                    android:paddingStart="@dimen/list_item_title_LTR_padding"
+                    android:paddingRight="@dimen/list_item_title_LTR_padding"
+                    android:paddingEnd="@dimen/list_item_title_LTR_padding"
+                    android:textSize="@dimen/list_item_description_text_size"
+                    android:textColor="@color/textColorTitle"
+                    android:contentDescription="@string/article_description"/>
 
             </LinearLayout>
 

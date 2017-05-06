@@ -1,12 +1,36 @@
 <resources>
     <string name="app_name">News Reader</string>
-    <string name="empty_list">No articles found. Try another topic.</string>
-    <string name="no_connection_message">No internet connection found</string>
+    <string name="no_connection_message">No internet connection found. Connect and then pick a new articles source.</string>
 
-    <!-- Settings Menu Item -->
+    <!-- Main Activity -->
+    <string name="articles_list">Articles list.</string>
+    <string name="article_source_logo">Article source logo</string>
+    <string name="error_message">Error message</string>
+
+    <!-- Saved Articles Activity -->
+    <string name="empty_list">No articles found. Try another topic.</string>
+    <string name="error_no_saved_articles">No articles saved!</string>
+    <string name="delete_item_failed">Error with deleting article</string>
+    <string name="delete_item_successful">Article deleted</string>
+    <string name="toast_fail">Error saving article</string>
+    <string name="toast_success">Article saved</string>
+    <string name="settings_source_saved_articles_label">My Saved Articles</string>
+    <string name="settings_source_saved_articles_value" translatable="false">null</string>
+    <string name="empty_articles_list">No Articles Available</string>
+    <string name="saved_articles_list">My saved articles list.</string>
+    <string name="saved_articles_title">My Saved Articles</string>
+    <string name="thumbnail_description">Article thumbnail</string>
+    <string name="article_title">Article title</string>
+    <string name="publication_date">Publication date</string>
+    <string name="article_description">Article description</string>
+
+    <!-- Settings Activity -->
     <string name="settings_menu_item">Settings</string>
-    <!-- Settings Activity Title -->
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="submit_button">Submit</string>
+    <string name="submit_button_description">Submit button</string>
     <string name="settings_title">NewsFeed Settings</string>
+    <string name="advertisement">Advertisement</string>
 
     <!-- Strings For Source Preference  -->
     <string name="settings_source_label">News Source</string>
@@ -37,38 +61,10 @@
     <string name="settings_source_businessinsider_label">Business Insider</string>
     <string name="settings_source_businessinsider_value" translatable="false">business-insider</string>
 
-    <!-- Label for Saved Articles option -->
-    <string name="settings_source_saved_articles_label">My Saved Articles</string>
-    <string name="settings_source_saved_articles_value" translatable="false">null</string>
-
-    <string name="toast_fail">Error saving article</string>
-
-    <string name="toast_success">Article saved</string>
-
-    <string name="delete_item_successful">Article deleted</string>
-
-    <string name="delete_item_failed">Error with deleting article</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
-    <string name="empty_articles_list">No Articles Available</string>
-
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-
-    <!-- Strings For Article Sort Preference -->
-    <!--<string name="settings_sort_by_label">Sort By</string>-->
-    <!--<string name="settings_sort_by_key" translatable="false">Sort</string>-->
-    <!--<string name="settings_sort_by_default" translatable="false">top</string>-->
-
-    <!-- Label for Top option -->
-    <!--<string name="settings_sort_by_top_label">Top</string>-->
-    <!--<string name="settings_sort_by_top_value" translatable="false">top</string>-->
-
-    <!-- Label for Latest option -->
-    <!--<string name="settings_sort_by_latest_label">Latest</string>-->
-    <!--<string name="settings_sort_by_latest_value" translatable="false">latest</string>-->
-
-    <!-- Label for Popular option -->
-    <!--<string name="settings_sort_by_popular_label">Popular</string>-->
-    <!--<string name="settings_sort_by_popular_value" translatable="false">popular</string>-->
+    <string name="widget_description">My saved articles widget</string>
+    <string name="widget_list">Widget articles list</string>
+    <string name="empty_widget_list">Empty widget articles</string>
+    <string name="widget_article_date_description">Article date</string>
+    <string name="widget_article_title_description">Article title</string>
 
 </resources>

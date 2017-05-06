@@ -1,7 +1,5 @@
 package com.example.android.newsreader;
 
-import timber.log.Timber;
-
 /**
  * Created by toddskinner on 4/24/17.
  */
@@ -42,7 +40,6 @@ public class Article {
         } else {
             mWebPublicationDate = "Not Dated";
         }
-        Timber.d("mWebPubDate = " + mWebPublicationDate);
         return mWebPublicationDate;
     }
 

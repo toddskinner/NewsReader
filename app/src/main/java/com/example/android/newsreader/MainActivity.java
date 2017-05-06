@@ -18,7 +18,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.logo)
     ImageView mLogoView;
 
+    @BindView(R.id.error_main)
+    TextView emptyTextView;
+
     public static final String LOG_TAG = MainActivity.class.getName();
     private Adapter adapter;
     private String NYT_BASE_API_REQUEST_URL = "http://api.nytimes.com/svc/topstories/v2";
@@ -69,20 +71,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Timber.plant(new Timber.DebugTree());
         }
 
-//        listView.setEmptyView(emptyTextView);
-
-        Timber.d("MainActivity");
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-        if (networkInfo != null && networkInfo.isConnected()) {
+        if (networkUp()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(ARTICLE_LOADER_ID, null, this);
+            emptyTextView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
         } else {
 //            progressBar.setVisibility(View.GONE);
-//            emptyTextView.setText(R.string.no_connection_message);
-            Toast.makeText(this, R.string.empty_list, Toast.LENGTH_SHORT).show();
+            emptyTextView.setText(R.string.no_connection_message);
+            emptyTextView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
         }
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
@@ -112,6 +110,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Tracker tracker = (((MyApplication) getApplication()).getTracker());
         tracker.setScreenName("Main Screen");
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    private boolean networkUp() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
     @Override
@@ -173,20 +177,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         uriBuilder.appendQueryParameter("source", articleSource);
         uriBuilder.appendQueryParameter("sortBy", articleSortBy);
         uriBuilder.appendQueryParameter("apiKey", API_KEY);
-
-        Timber.d("uribuilder");
-        Timber.d(uriBuilder.toString());
-
         return new ArticleLoader(this, uriBuilder.toString());
     }
 
     @Override
     public void onLoadFinished(Loader<List<Article>> loader, List<Article> data) {
-//        adapter.clear();
         if (data != null && !data.isEmpty()) {
             adapter = new Adapter(data);
             adapter.setHasStableIds(true);
-            Log.e("onLoadFinished", "Run onLoadFinished");
 //            progressBar.setVisibility(View.GONE);
             mRecyclerView.setAdapter(adapter);
             int columnCount = 1;
@@ -194,7 +192,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     new GridLayoutManager(this, columnCount);
             mRecyclerView.setLayoutManager(sglm);
         }
-//        emptyTextView.setText(R.string.empty_list);
     }
 
     @Override
@@ -234,10 +231,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Article currentArticle = mListArticle.get(position);
             holder.articleTitleTextView.setText(currentArticle.getWebTitle());
             holder.publicationDateTextView.setText(currentArticle.getWebPublicationDate());
-
+            holder.articleDescriptionTextView.setText(currentArticle.getDescription());
             String thumbnailUrl = currentArticle.getThumbnailUrl();
-            Timber.d("thumbnailUrl");
-            Timber.d(thumbnailUrl.toString());
             Picasso.with(holder.thumbnailView.getContext()).load(thumbnailUrl).into(holder.thumbnailView);
         }
 
@@ -251,12 +246,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         public ImageView thumbnailView;
         public TextView articleTitleTextView;
         public TextView publicationDateTextView;
+        public TextView articleDescriptionTextView;
 
         public ViewHolder(View view) {
             super(view);
             thumbnailView = (ImageView) view.findViewById(R.id.thumbnail);
             articleTitleTextView = (TextView) view.findViewById(R.id.article_title);
             publicationDateTextView = (TextView) view.findViewById(R.id.publication_date);
+            articleDescriptionTextView = (TextView) view.findViewById(R.id.article_description);
         }
     }
 
@@ -283,22 +280,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         saveItem(position);
 
                         if (position == 0) {
-
-
-
-
-
-                            //This crashes
-//                            mListArticle.remove(position);
-//                            adapter.notifyItemRemoved(position);
-
                             mListArticle.remove(position);
                             adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-//                            adapter.notifyDataSetChanged();
                         } else {
+                            mListArticle.remove(position);
                             adapter.notifyItemRemoved(position);
                         }
-//                        mListArticle.remove(position);
                         return;
                     }
                 }).setPositiveButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -325,7 +312,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         if (newUri != null) {
             Toast.makeText(this, R.string.toast_success, Toast.LENGTH_SHORT).show();
-
             Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
             this.getApplicationContext().sendBroadcast(dataUpdatedIntent);
         } else {

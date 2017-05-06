@@ -15,9 +15,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
+            android:contentDescription="@string/widget_description"
             android:layout_gravity="center"
-            android:text="My Saved Articles"
+            android:text="@string/saved_articles_title"
             android:fontFamily="sans-serif-smallcaps"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -33,6 +33,7 @@
                 android:layout_height="match_parent"
                 android:divider="@null"
                 android:dividerHeight="0dp"
+                android:contentDescription="@string/widget_list"
                 tools:listitem="@layout/widget_articles_item" />
 
             <TextView
@@ -41,8 +42,9 @@
                 android:layout_height="match_parent"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:text="@string/empty_articles_list"
+                android:contentDescription="@string/empty_widget_list"
                 android:textAppearance="@android:style/TextAppearance.Medium" />
         </FrameLayout>
     </LinearLayout>

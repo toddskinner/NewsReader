@@ -10,14 +10,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Submit"
+        android:text="@string/submit_button"
         android:id="@+id/submitButton"
+        android:focusable="true"
+        android:contentDescription="@string/submit_button"
         android:layout_gravity="center|center_vertical" />
 
     <com.google.android.gms.ads.AdView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
         android:id="@+id/adView"
         ads:adSize="BANNER"
+        android:contentDescription="@string/advertisement"
         ads:adUnitId="@string/banner_ad_unit_id"/>
 </fragment>
